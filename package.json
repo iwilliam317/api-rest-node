@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/iwilliam317/api-rest-node/issues"
   },
-  "homepage": "https://github.com/iwilliam317/api-rest-node#readme"
+  "homepage": "https://github.com/iwilliam317/api-rest-node#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.17"
+  }
 }
