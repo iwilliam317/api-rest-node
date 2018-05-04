@@ -1,4 +1,4 @@
-const mongoose = require('../database/index');
+const mongoose = require('../database');
 
 const UserSchema = new mongoose.Schema ({
   name: {
@@ -12,12 +12,16 @@ const UserSchema = new mongoose.Schema ({
     lowercase: true,
   },
   password: {
-    type: String
+    type: String,
     required: true,
-    select: false
+    select: false,
   },
   createdAt: {
     type: Date,
     default: Date.now,
   }
-})
+});
+
+const User = mongoose.model('User', UserSchema);
+
+module.exports = User;
