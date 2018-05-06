@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema ({
 
 // can't use arrow function
 // it mess 'this'
+// inside pre, the context is the object being saved.
 UserSchema.pre('save',  async function (next) {
     const hash = await bcrypt.hash(this.password, 3);
     this.password = hash;
