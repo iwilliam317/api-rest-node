@@ -10,6 +10,13 @@ const authConfig = require('../config/auth.json');
 
 const router = express.Router();
 
+
+function generateToken(params = {}){
+    return jwt.sign({ params }, authConfig.secret, {
+        expiresIn: 84600
+    });
+}
+
 router.post('/register', async(request, response) => {
 
     const { name, email } = request.body;
@@ -22,7 +29,10 @@ router.post('/register', async(request, response) => {
 
         console.log(request.body);
         const user = await User.create(request.body);
-        return response.send({ user });
+        return response.send({
+         user,
+         token: generateToken( { id: user.id })  
+        });
 
         } catch (error){
             return response.status(400).send({ status: 'Registration failed!' })
@@ -42,10 +52,10 @@ router.post('/authenticate', async (request, response) => {
         return response.status(400).send({ error: 'Invalid password!'})
     }
 
-    const token = jwt.sign({ id: user.id}, authConfig.secret, {
-        expiresIn: 86400
-    })
-    response.send( {user, token });
+    response.send( {
+        user,
+        token: generateToken( { id: user.id }) 
+    });
 
 });
 
