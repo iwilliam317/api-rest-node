@@ -3,5 +3,10 @@ module.exports = (request, response, next) => {
 
   if (!authHeader)
     return response.status(401).send({ error: 'No token provided! '});
-  
+
+  const parts = authHeader.split(' ');
+
+  if (parts.length ===2 )
+    return response.status(401).send({ error: 'Token error! '});
+
 };
