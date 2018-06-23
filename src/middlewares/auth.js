@@ -9,4 +9,9 @@ module.exports = (request, response, next) => {
   if (parts.length ===2 )
     return response.status(401).send({ error: 'Token error! '});
 
+  const [ scheme, token ] = parts;
+
+  if (!/^Bearer$/i.test(scheme))
+    return response.status(401).send({ error: 'Token malformatted!'});
+
 };
