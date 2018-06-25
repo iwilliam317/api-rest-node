@@ -9,7 +9,7 @@ module.exports = (request, response, next) => {
 
   const parts = authHeader.split(' ');
 
-  if (parts.length ===2 )
+  if (!parts.length === 2 )
     return response.status(401).send({ error: 'Token error! '});
 
   const [ scheme, token ] = parts;
@@ -19,8 +19,9 @@ module.exports = (request, response, next) => {
   
 
   jwt.verify(token, authConfig.secret, (error, decoded) => {
-    
+    console.log(decoded)
     if (error) return response.status(401).send({ error: 'Token invalid!'});
+
     request.userId = decoded.id;
     return next();
 
