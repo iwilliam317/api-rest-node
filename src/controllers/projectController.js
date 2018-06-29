@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const authMiddleware = require('../middlewares/auth.js');
 
-const Project = require('../models/Project');
-const Task = require('../models/Task');
+const Project = require('../models/project');
+const Task = require('../models/task');
 
 router.use(authMiddleware);
 
 router.get('/', async (request, response) => {
+  console.log(request.userId);
   response.send({ user: request.userId});
 });
 
@@ -15,6 +16,14 @@ router.get('/:projectId', async (request, response) => {
 });
 
 router.post('/', async (request, response) => {
+  try{
+    const project = Project.create(request.body);
+
+    response.send({ project });
+  }
+  catch (error){
+    return response.status(400).send({ error: 'Error creating project!'});
+  }
   response.send({ user: request.userId});
 });
 
