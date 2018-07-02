@@ -7,8 +7,16 @@ const Task = require('../models/task');
 router.use(authMiddleware);
 
 router.get('/', async (request, response) => {
-  console.log(request.userId);
-  response.send({ user: request.userId});
+  // console.log(request.userId);
+  try{
+    const projects = await Project.find();
+
+    return response.send({ projects });
+  }
+  catch (error){
+    return response.status(400).send({ error: 'Error loading projects!'});
+  }
+  
 });
 
 router.get('/:projectId', async (request, response) => {
