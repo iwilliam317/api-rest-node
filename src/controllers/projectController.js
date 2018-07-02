@@ -25,7 +25,7 @@ router.get('/:projectId', async (request, response) => {
 
 router.post('/', async (request, response) => {
   try{
-    const project = await Project.create(request.body);
+    const project = await Project.create({...request.body, user: request.userId });
 
     return response.send({ project });
   }
