@@ -20,7 +20,15 @@ router.get('/', async (request, response) => {
 });
 
 router.get('/:projectId', async (request, response) => {
-  response.send({ user: request.userId});
+  try {
+
+    const project = await Project.findById(request.params.projectId).populate('user');
+
+    return response.send({ project });
+  }
+  catch (error){
+    return response.status(400).send({ error: 'Error loading project!'});
+  }
 });
 
 router.post('/', async (request, response) => {
