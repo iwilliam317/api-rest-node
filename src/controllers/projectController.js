@@ -36,6 +36,15 @@ router.post('/', async (request, response) => {
 
     const project = await Project.create({title, description, user: request.userId });
 
+    await Promise.all( tasks.map(async task => {
+      const projectTask = new Task({ ...task, project: project._id });
+
+      await projectTask.save();
+      project.tasks.push(projectTask);
+    }));
+
+    await project.save();
+
     return response.send({ project });
   }
   catch (error){
