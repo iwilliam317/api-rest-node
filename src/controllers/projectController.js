@@ -21,7 +21,6 @@ router.get('/', async (request, response) => {
 
 router.get('/:projectId', async (request, response) => {
   try {
-
     const project = await Project.findById(request.params.projectId).populate('user');
 
     return response.send({ project });
@@ -48,7 +47,14 @@ router.put('/:projectId', async (request, response) => {
 });
 
 router.delete('/:projectId', async (request, response) => {
-  response.send({ user: request.userId});
+  try {
+   await Project.findByIdAndRemove(request.params.projectId);
+
+    return response.send('Project successfuly deleted!');
+  }
+  catch (error){
+    return response.status(400).send({ error: 'Error deleting project!'});
+  }
 });
 
 
