@@ -59,5 +59,9 @@ router.post('/authenticate', async (request, response) => {
 
 });
 
+router.post('/forgot_password', async (request, response) => {
+    response.send({ ok: true });
+});
+
 //route /auth/register
 module.exports = (app) => app.use('/auth', router); 
