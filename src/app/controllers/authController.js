@@ -60,7 +60,15 @@ router.post('/authenticate', async (request, response) => {
 });
 
 router.post('/forgot_password', async (request, response) => {
-    response.send({ ok: true });
+    const { email } = request.body;
+
+    try {
+        const user = await User.findOne({ email });
+    }
+    catch (error){
+        response.status(400).send({ error : 'Error on forgot password, please try again'})
+    }
+    
 });
 
 //route /auth/register
