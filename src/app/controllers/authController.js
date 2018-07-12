@@ -10,6 +10,7 @@ const authConfig = require('../../config/auth.json');
 
 const router = express.Router();
 
+const crypto = require('crypto');
 
 function generateToken(params = {}){
     return jwt.sign({ params }, authConfig.secret, {
@@ -67,6 +68,8 @@ router.post('/forgot_password', async (request, response) => {
 
         if(!user)
             return response.status(400).send({ error: 'User not found' });
+
+        const token = crypto.randomBytes(20).toString('hex');
     }
     catch (error){
         response.status(400).send({ error : 'Error on forgot password, please try again'})
