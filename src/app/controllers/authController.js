@@ -70,6 +70,10 @@ router.post('/forgot_password', async (request, response) => {
             return response.status(400).send({ error: 'User not found' });
 
         const token = crypto.randomBytes(20).toString('hex');
+
+        const now = new Date();
+        
+        now.setHours(now.getHours() + 1);
     }
     catch (error){
         response.status(400).send({ error : 'Error on forgot password, please try again'})
