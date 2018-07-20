@@ -12,6 +12,8 @@ const router = express.Router();
 
 const crypto = require('crypto');
 
+const mailer = require('../../modules/mailer');
+
 function generateToken(params = {}){
     return jwt.sign({ params }, authConfig.secret, {
         expiresIn: 84600
@@ -82,10 +84,22 @@ router.post('/forgot_password', async (request, response) => {
             }
         });
 
-        console.log(token, now);
+        mailer.sendEmail({
+            to: email,
+            from: 'willshinji@gmail.com',
+            template: 'auth/forgot_password',
+            context: { token}
+        }, (error) => {
+            if (error) 
+                return response.status(400).send({ error : 'Error on sending email, please try again'});
+            console.log(error);
+            return response.send();
+        })
+        // console.log(token, now);
     }
     catch (error){
-        response.status(400).send({ error : 'Error on forgot password, please try again'})
+        console.log(error);
+        response.status(400).send({ error : 'Error on forgot password, please try again'});
     }
     
 });
