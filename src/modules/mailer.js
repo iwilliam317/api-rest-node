@@ -8,6 +8,7 @@ const hbs = require('nodemailer-express-handlebars');
 
 //shortcut sintax - ES6
 const transport = nodemailer.createTransport({
+  service: 'gmail',
   host,
   port,
   auth: { user, pass },
